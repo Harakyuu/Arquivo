@@ -1,0 +1,85 @@
+/// LaboratÃ³rio de Estrutura de Dados 1
+// FlÃ¡vio Kenzo Nishiyama - 32031890
+// Guilherme da Costa Sampaio Pinto - 32011059
+// Nicolas Kanamaru de Oliveira - 32050631
+
+// bibliotecas padrÃµes para codificaÃ§Ã£o
+#include <cstdlib>
+#include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string>
+// TAD Lista
+#include "ListaLigada.h"
+#include "Celula.h"
+
+using namespace std;
+
+int main() {
+
+  // DeclaraÃ§Ã£o do arquivo
+  FILE *arquivo;
+  FILE *temp;
+	ListaLigada texto;
+  char ch;
+  // VerificaÃ§Ã£o de abertura do arquivo
+  if ((arquivo = fopen("InteligenciaEmocional.txt", "r+")) == NULL) {
+    cout << "Erro na abertura do arquivo\n"; return 0;
+  }
+  temp = fopen("Temp.txt", "w+");
+  
+  // Leitura do primeiro caracter
+  ch = getc(arquivo);
+
+  // Varredura do arquivo
+  while (ch != EOF) {
+    texto.insereFinal(ch);
+    ch = getc(arquivo); 
+  }
+  // Menu:
+  while (true) {
+    ch = getc(temp);
+    while (ch != EOF) {
+      texto.insereFinal(ch);
+      ch = getc(temp); 
+    }
+    cout << "\nPROJETO DE ESTRUTURA DE DADOS:\n\n";
+    texto.imprime();
+    cout << "\n0 - sair";
+    cout << "\n1 - verificar o nÃºmero de ocorrÃªncias de uma palava:";
+    cout << "\n2 - substituir uma palavra por uma nova: ";
+    cout << "\n3 - imprimir a lista, caracter por caracter";
+    cout << "\n4 - salvar as alteraÃ§Ãµes no arquivo texto";
+    cout << "\n\ninforme sua opÃ§Ã£o: ";
+    int opc;
+    cin >> opc;
+
+    if (opc == 0) {
+      break;
+    } else if (opc == 1) {
+      string palavra;
+      cout << "\nDigite a palavra a ser verificada: ";
+      cin >> palavra;
+      cout << "\nNÃºmero de ocorrÃªncias desta palavra no texto: " << texto.contaPalavra(palavra);
+      cout << "\n";
+    } else if (opc == 2) {
+      string palavra1;
+      string palavra2;
+      cout << "\nDigite a palavra a ser trocada: ";
+      cin >> palavra1;
+      cout << "Digite a nova palavra: ";
+      cin >> palavra2;
+      cout << "\nNova lista: "; texto.trocaPalavra(palavra1,palavra2);
+    } else if (opc == 3) {
+      texto.imprimechar();
+    } else if (opc == 4) {
+        texto.salva(temp);
+        remove("InteligenciaEmocional.txt");
+        rename("Temp.txt", "InteligenciaEmocional.txt");
+        cout << "\nSeu texto foi salvo com sucesso.\n";
+        break;
+      }
+    }
+  fclose(arquivo); //fechamento do arquivo
+	return 0;
+}
